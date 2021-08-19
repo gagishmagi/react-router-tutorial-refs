@@ -1,24 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+
+
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { Route, Switch } from 'react-router';
+
+import HomePage from './components/HomePage';
+import Contact from './components/Contact';
+import About from './components/About';
+import Page404 from './components/Page404';
+import SingleContact from './components/SingleContact';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+        <Header/>
+        <div className="page">
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/contact" component={Contact} />
+            <Route path="/contact/:id" component={SingleContact} />
+
+            <Route path="/about" component={About} />  
+            <Route component={Page404}/>
+          </Switch>
+        </div>
+        <Footer/>
+      </div>
   );
 }
 
