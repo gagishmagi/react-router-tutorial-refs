@@ -26,7 +26,7 @@ const routes = function (){
                 <Route exact path="/" component={HomePage}/>
                 <Route path="/home" render={(props) => (
                 <Redirect to="/"></Redirect>)} />
-                <Route path="/contact" component={Contact}/>
+                <Route path="/contact" component={props => <Contact {...props}/>}/>
                 <ProtectedRoute path="/secret" component={Secret}/>
                 <Route component={Page404}/>
             </Switch>
