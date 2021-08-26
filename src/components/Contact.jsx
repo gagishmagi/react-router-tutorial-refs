@@ -29,6 +29,10 @@ export default class Contact extends Component {
   }
 
 
+  componentWillUnmount(){
+    console.log("Contact page is unmounted")
+  }
+
   parseUrl(props = ''){
     const search = props ? props.location.search : this.props.location.search
     if (search) {
@@ -37,7 +41,7 @@ export default class Contact extends Component {
       let q = parsed.q;
       return q
     }
-    return null
+    return this.state.q
   }
 
   searchContact(nextProps) {
