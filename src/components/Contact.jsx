@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
 import queryString from "query-string";
+import ContactLink from "./ContactLink";
 
 export default class Contact extends Component {
   constructor(props) {
@@ -13,7 +13,13 @@ export default class Contact extends Component {
         { path: "/contact/3", value: "Contact 3" },
         { path: "/contact/4", value: "Contact 4" },
       ],
-      filtredArr: []
+      filtredArr: [
+        { path: "/contact/1", value: "Contact 1" },
+        { path: "/contact/2", value: "Contact 2" },
+        { path: "/contact/3", value: "Contact 3" },
+        { path: "/contact/4", value: "Contact 4" },
+      ],
+      show:true      
     };
   }
   
@@ -49,8 +55,15 @@ export default class Contact extends Component {
 
       this.filterContacts(pasredQ);
 
+      if(pasredQ === "hide" )
+        this.hide();
+
       this.setState({ q: pasredQ });
     
+  }
+
+  hide(){
+    this.setState({show:false})
   }
 
   filterContacts(q) {
@@ -68,6 +81,9 @@ export default class Contact extends Component {
     }
   }
 
+
+  
+
   render() {
     return (
       <div>
@@ -78,10 +94,10 @@ export default class Contact extends Component {
           <>
             <strong>Select contact from list</strong>
             <ul>
-              {this.state.filtredArr.map((link, index) => (
-                <li key={index}>
-                  <Link to={link.path}>{link.value}</Link>
-                </li>
+              {this.state.filtredArr.map((contact, index) => (
+                <div key={index}>
+                  { this.state.show ?  <ContactLink  path={contact.path} value={contact.value}/>: null }
+                </div>
               ))}
             </ul>
           </>
