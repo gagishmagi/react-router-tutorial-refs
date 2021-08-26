@@ -7,6 +7,7 @@ import Page404 from "../components/Page404"
 import ProtectedRoute from "../components/Protected"
 import Secret from "../components/Secret"
 
+
 const routes = function (){
     return (
         <Router>

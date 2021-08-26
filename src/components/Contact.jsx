@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import queryString from "query-string";
 
 export default class Contact extends Component {
@@ -13,24 +13,40 @@ export default class Contact extends Component {
         { path: "/contact/3", value: "Contact 3" },
         { path: "/contact/4", value: "Contact 4" },
       ],
+      filtredArr: []
     };
   }
-
+  
   componentDidMount() {
     this.searchContact();
   }
 
-  searchContact() {
-    // console.log(this.props);
-    if (this.props.location.search) {
-      let url = this.props.location.search;
+  componentWillReceiveProps(nextProps){
+    if(nextProps){
+      this.searchContact(nextProps)
+    }
+
+  }
+
+
+  parseUrl(props = ''){
+    const search = props ? props.location.search : this.props.location.search
+    if (search) {
+      let url = search;
       let parsed = queryString.parse(url);
       let q = parsed.q;
-
-      this.filterContacts(q);
-
-      this.setState({ q });
+      return q
     }
+    return null
+  }
+
+  searchContact(nextProps) {
+      let pasredQ = this.parseUrl(nextProps)
+
+      this.filterContacts(pasredQ);
+
+      this.setState({ q: pasredQ });
+    
   }
 
   filterContacts(q) {
@@ -38,11 +54,13 @@ export default class Contact extends Component {
 
     q = q.replaceAll('"', "");
 
+
     if (q) {
       const fitered = contacts.filter((contact) => {
         return contact.value.includes(q);
       });
-      this.setState({ contacts: fitered });
+
+      this.setState({ filtredArr: fitered });
     }
   }
 
@@ -56,7 +74,7 @@ export default class Contact extends Component {
           <>
             <strong>Select contact from list</strong>
             <ul>
-              {this.state.contacts.map((link, index) => (
+              {this.state.filtredArr.map((link, index) => (
                 <li key={index}>
                   <Link to={link.path}>{link.value}</Link>
                 </li>
